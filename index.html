@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>jQuery Router Demos</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+		<script src="js/jquery-migrate-1.4.1.min.js"></script>
+		<script src="js/cbsplit.js"></script>
+		<script src="js/jquery.ba-hashchange.js"></script>
+		<script src="js/jquery.router.js"></script>
+		<script>
+			$(function() {
+				$(document).route('news/', function(request) {
+					return "output: " + JSON.stringify(request.params);
+				}).route('news/:id', function(request, id) {
+					$.get("php/req.php", {"id":id}, function(response) {
+						$("#result").html(response);
+					});
+				});
+			});
+			
+			// Bind hashchange event(required!)
+			$(window).bind('hashchange', function(e, triggered) {
+				var hash = location.hash.replace(/^#/, '');
+				if (hash) {
+					var match = $.routeMatches(hash);
+					if (match) {
+						var template = $(match.route.template);
+						if (template.length) {
+							var text = match.route.callback.apply(match.route.callback, match.args);
+							template.text(text);
+						}
+					}
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<p><div id="result">This is output.</div></p>
+		<p><a href="#news/">News</a></p>
+		<p><a href="#news/123">News-id</a></p>
+	</body>
+</html>

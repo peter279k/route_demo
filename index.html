@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
 	<head>
 		<meta charset="UTF-8" />
@@ -10,7 +10,7 @@
 		<script src="js/jquery.router.js"></script>
 		<script>
 			$(function() {
-				$(document).route('news/', function(request) {
+				$("#result").route('news/', function(request) {
 					return "output: " + JSON.stringify(request.params);
 				}).route('news/:id', function(request, id) {
 					$.get("php/req.php", {"id":id}, function(response) {
